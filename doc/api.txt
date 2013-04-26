@@ -1,0 +1,107 @@
+# Represents a core.
+core:
+  # Represents a collection of resources.
+  resources:
+    # Represents a background.
+    background: (core, id, extension = core.defaults.backgroundExtension, repository = core.defaults.backgroundRepository)
+      # Hide the background.
+      hide: (transition = 'normal', callback = null)
+      # Show the background.
+      show: (transition = 'normal', callback = null)
+
+    # Represents a character.
+    character: (core, id, extension = core.defaults.characterExtension, repository = core.defaults.characterRepository)
+      # Hide the character.
+      hide(transition = 'normal', callback = null)
+      # Gets or sets the character name.
+	  name(name = null)
+      # Show the character.
+	  show(name = 'normal', transition = 'normal', callback, callback = null)
+	  # Show text with the character as sender, and await continuation.
+	  text(text = null, sender = null, callback = null)
+
+    # Represents a displayable base.
+    displayable: (core)
+      # Hide the displayable.
+      hide: (element, transition = 'normal', callback = null)
+      # Show the displayable.
+      show: (element, source, transition = 'normal', callback = null) =>
+
+  # Represents a controller.
+  controller: (core, element)
+    # Clear the scene and transition the background.
+    background(name = null, transition = 'normal', clear = true, callback = null)
+	# Prompt choices and await for user selection.
+	choose(choices, callback = null)
+	# Show text with an optional sender, and await continuation.
+	text(text = null, sender = null, callback = null)
+
+  # Represents a core.
+  index: (width = 800, height = 600, element = document.getElementById 'novel')
+    # Contains a controller.
+	controller: controller
+	# Contains a collection of resources.
+    resources: resources
+    # Contains a visualizer.
+    visualizer: visualizer
+
+  # Represents a collection of resources.
+  resources: (core)
+    # Find all loaded resources.
+	all()
+    # Gets or sets a background.
+    background(id, background = null)
+    # Gets or sets a character.
+    character(id, character = null)
+    # Gets or sets a transition.
+    transition(id, transition = null)
+
+  # Represents a visualizer.
+  visualizer: (width = 800, height = 600, element = document.getElementById 'novel')
+    # Indicates whether a displayable element exists.
+	exists(id)
+    # Find or create a displayable element.
+    findOrCreate(id)
+    # Remove a displayable element.
+    remove(id)
+	# Show text with an optional sender.
+	text(text = null, sender = null, callback = null)
+
+# Represents an intepreter.
+interpreter:
+  # Represents a character interpreter.
+  character: (character, instructions)
+    # Hide the character.
+    hide(transition = 'normal')
+    # Show the character.
+	show(name = 'normal', transition = 'normal')
+	# Show text with the character as sender, and await continuation.
+	text(text = null, sender = null)
+
+  # Represents a controller interpreter.
+  controller: (core, instructions, interpreter)
+    # Clear the scene and transition the background.
+    background(name = null, transition = 'normal', clear = true)
+    # Gets a character.
+    character(name) => (Intercepted; never reaches core controller)
+	# Prompt choices and await user selection.
+	choose(choices)
+    # Declare a label.
+	label(name, declaration) => (Intercepted; never reaches core controller)
+	# Jump to the label.
+	jump(name) => (Intercepted; never reaches core controller)
+	# Show text with an optional sender, and wait for user input.
+	text(text = null, sender = null)
+
+  # Represents an interpreter.
+  index: (core, scenario)
+    # Interpret instructions for the jump.
+	jump(name)
+    # Declare interpretable label the jump operation.
+	label(name, declaration)
+    # Invoke and advance the current instruction.
+    next(err = null, jump = null)
+
+  # Represents an instruction delegate.
+  instructions: (instructions)
+    # Push the instruction.

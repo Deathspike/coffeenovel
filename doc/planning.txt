@@ -1,0 +1,20 @@
+Minor Changes (Alphabetic Order):
+* Add character-specific features, such as text color and text font.
+* Add options and integrate letterPerSecond and text continuation (click/timed).
+* Add pause function to pause scenario for given time in milliseconds.
+* Improve interpreter to perform ahead-of-time pre-loading on images.
+* Improve transition speed for Android devices (For a developer, terrible devices)
+* Improve text speed for Android devices (For a developer, terrible devices)
+* Protect against simultaneous transitions of characters and backgrounds.
+* Protect against simultaneous usage of text- and choice functions.
+* Protect against interpreter exceptions.
+
+Major Changes (Order of Importance):
+* Implement sound with different channels for voice, music and effects.
+* Implement scenario state tracking for scroll-back history and persistence.
+* Implement character- and background animation.
+* Implement video system for full-screen video playback.
+* Implement particle system for small moving objects (such as snow).
+
+Structural Changes (Alphabetic Order):
+* Extract useful helper functions to avoid duplication.

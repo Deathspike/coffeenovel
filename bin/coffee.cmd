@@ -1,0 +1,1 @@
+node "%~dp0\..\node_modules\coffee-script\bin\coffee" -c -w ../
