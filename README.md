@@ -2,6 +2,11 @@
 
 A visual novel engine written with open web technologies.
 
+## Acknowledgements
+
+  1. Inspired by the Ren'Py visual novel engine.
+  2. Game 'The Question' is an adaptation of the Ren'Py game (http://games.renpy.org/game/question.shtml).
+
 ## Building
 
   1. Install nodejs (http://nodejs.org/)
@@ -18,4 +23,4 @@ A visual novel engine written with open web technologies.
 
 ## Status
 
-This project is in Alpha stage and will undergo significant changes and improvements.
+This project is in alpha stage and will undergo significant changes and improvements.
