@@ -18,7 +18,7 @@ A visual novel engine written with open web technologies.
 ## Dependencies
 
   1. jQuery 1.9.x (http://jquery.com/)
-  2. jQuery Transition (http://ricostacruz.com/jquery.transit/)
+  2. jQuery Transition 0.9.X (http://ricostacruz.com/jquery.transit/)
 
 ## Releasing (No Installation)
 

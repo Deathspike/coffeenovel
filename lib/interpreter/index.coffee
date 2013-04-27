@@ -86,12 +86,16 @@ module.exports = class
 		else
 			# Initialize and increment the current instruction.
 			instruction = @_instructions[@_index++]
-			# Check if the instruction is a jump.
+			# Check if the instruction is jump.
 			if instruction[1] is 'jump'
 				# Interpret instructions for the jump.
 				@jump instruction[2][0]
 				# Invoke and advance an instruction.
 				@next()
+			# Otherwise check if the instruction is pause.
+			else if instruction[1] is 'pause'
+				# Schedule the next instruction.
+				setTimeout @next, instruction[2][0]
 			# Otherwise the instruction is to be invoked.
 			else
 				# Initialize the target arguments, using a clone to support rewinding.

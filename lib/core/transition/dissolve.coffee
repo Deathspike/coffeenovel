@@ -34,19 +34,19 @@ module.exports = (element, source = null, callback = null) ->
 		# Transition with normal transition.
 		normal element, source
 		# Check if the browser supports CSS3 transitions.
-		if $.support.transition
+		if jQuery.support.transition
 			# Perform CSS3 transition.
-			$(element).transition {opacity: 1}, 500
+			jQuery(element).transition opacity: 1, 500
 		else
 			# Perform JavaScript transition.
-			$(element).fadeTo 500, 1
+			jQuery(element).fadeTo 500, 1
 	# Check if the browser supports CSS3 transitions.
-	if $.support.transition
+	if jQuery.support.transition
 		# Perform CSS3 transition.
-		$(clone).transition {opacity: 0}, 500, done
+		jQuery(clone).transition opacity: 0, 500, done
 	else
 		# Perform JavaScript transition.
-		$(clone).fadeTo 500, 0, done
+		jQuery(clone).fadeTo 500, 0, done
 
 # ==================================================
 # Change opacity of the element.

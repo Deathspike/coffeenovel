@@ -60,6 +60,17 @@ module.exports = class
 		@_interpreter.label name, declaration
 
 	# ==============================================
+	# Pause for the specified time.
+	# ----------------------------------------------
+	pause: (timeInMilliseconds = 1000) =>
+		# Check if the time is invalid.
+		if timeInMilliseconds < 0
+			# Throw the error.
+			throw 'Invalid pause time "' + timeInMilliseconds + '"'
+		# Push the instruction.
+		@_instructions [@_core.controller, 'pause', [timeInMilliseconds]]
+
+	# ==============================================
 	# Show text with an optional sender, and wait for user input.
 	# ----------------------------------------------
 	text: (text = null, sender = null) =>

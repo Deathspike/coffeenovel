@@ -90,6 +90,8 @@ interpreter:
 	label(name, declaration) => (Intercepted; never reaches core controller)
 	# Jump to the label.
 	jump(name) => (Intercepted; never reaches core controller)
+	# Pause for the specified time.
+	pause(timeInMilliseconds = 1000) => (Intercepted; never reaches core controller)
 	# Show text with an optional sender, and wait for user input.
 	text(text = null, sender = null)
 
