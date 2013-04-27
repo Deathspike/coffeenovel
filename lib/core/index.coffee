@@ -1,5 +1,7 @@
 # Import the controller core class.
 Controller = require './controller'
+# Import the options core class.
+Options = require './options'
 # Import the resources core class.
 Resources = require './resources'
 # Import the visualizer core class.
@@ -17,10 +19,12 @@ module.exports = class
 		@controller = new Controller @, element
 		# Initialize defaults.
 		@defaults = defaults()
+		# Initialize a collection of options.
+		@options = new Options
 		# Initialize a collection of resources.
 		@resources = new Resources @
 		# Initialize a visualizer.
-		@visualizer = new Visualizer width, height, element
+		@visualizer = new Visualizer @, width, height, element
 
 # ==================================================
 # Initialize defaults.

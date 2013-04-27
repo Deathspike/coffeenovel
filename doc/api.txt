@@ -40,6 +40,8 @@ core:
   index: (width = 800, height = 600, element = document.getElementById 'novel')
     # Contains a controller.
 	controller: controller
+	# Contains a collection of options.
+	options: options
 	# Contains a collection of resources.
     resources: resources
     # Contains a visualizer.
@@ -56,8 +58,15 @@ core:
     # Gets or sets a transition.
     transition(id, transition = null)
 
+  # Represents a collection of options.
+  options:
+    # Contains whether automatic continuation is enabled.
+    automaticContinuation = false
+    # Contains the number of letters per second for text visualization.
+    lettersPerSecond: 100
+
   # Represents a visualizer.
-  visualizer: (width = 800, height = 600, element = document.getElementById 'novel')
+  visualizer: (core, width = 800, height = 600, element = document.getElementById 'novel')
     # Indicates whether a displayable element exists.
 	exists(id)
     # Find or create a displayable element.

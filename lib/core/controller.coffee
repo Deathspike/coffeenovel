@@ -11,32 +11,20 @@ module.exports = class
 	# Initialize a new instance of the class.
 	# ----------------------------------------------
 	constructor: (core, element) ->
-		# Set the pending callback.
-		@_callback = null
 		# Set the element with the choice role.
 		@_choice = role 'choice', element
 		# Set the core.
 		@_core = core
 		# Set the element.
 		@_element = element
+		# Set the pending callback.
+		@_pendingCallback = null
+		# Set the pending timeout identifier.
+		@_pendingTimeout = null
 		# Attach an event listener.
-		attach @_element, 'click', (e) =>
-			# Get the event.
-			e = e or window.event
-			# Check if a pending callback is available.
-			if @_callback
-				# Schedule the callback.
-				setTimeout @_callback, 0
-				# Remove the callback.
-				@_callback = null
-			# Check if propagation is available.
-			if e.stopPropagation
-				# Stop proagation.
-				e.stopPropagation()
-			# Otherwise this is a terrible browser.
-			else
-				# Set the cancel bubble.
-				e.cancelBubble = true
+		attach @_element, 'click', =>
+			# Perform continuation.
+			continuation.call @
 
 	# ==================================================
 	# Clear the scene and transition the background.
@@ -123,4 +111,25 @@ module.exports = class
 		# Show text with an optional sender.
 		@_core.visualizer.text text, sender, =>
 			# Set the pending callback.
-			@_callback = callback
+			@_pendingCallback = callback
+			# Check whether automatic continuation is enabled.
+			if @_core.options.automaticContinuation
+				# Schedule the continuation.
+				@_pendingTimeout = setTimeout (=> continuation.call @), 1000 + text.length * 50
+
+# ==================================================
+# Perform continuation (to be called in scope).
+# --------------------------------------------------
+continuation = ->
+	# Check if a pending callback is available.
+	if @_pendingCallback
+		# Schedule the callback.
+		setTimeout @_pendingCallback, 0
+		# Remove the callback.
+		@_pendingCallback = null
+	# Check if a pending timeout is available.
+	if @_pendingTimeout
+		# Clear the pending timeout.
+		clearTimeout @_pendingTimeout
+		# Remove the pending callback.
+		@_pendingCallback = null

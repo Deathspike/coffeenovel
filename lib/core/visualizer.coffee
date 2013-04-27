@@ -10,11 +10,11 @@ module.exports = class
 	# ==============================================
 	# Initialize a new instance of the class.
 	# ----------------------------------------------
-	constructor: (width = 800, height = 600, element = document.getElementById 'novel') ->
+	constructor: (core, width = 800, height = 600, element = document.getElementById 'novel') ->
 		# Set the container element.
 		@_container = container width, height, element
-		# Set the letters per second (temporary)
-		@_lettersPerSecond = 100
+		# Set the core.
+		@_core = core
 		# Set the pending callback.
 		@_pendingCallback = null
 		# Set the pending timeout identifier.
@@ -102,7 +102,7 @@ module.exports = class
 		# Check if the text element is available.
 		if @_text
 			# Check if the letters per second indicates instant appearance.
-			if not text or not @_lettersPerSecond
+			if not text or not @_core.options.lettersPerSecond
 				# Set the text in the text element.
 				@_text.innerHTML = if text then text else ''
 				# Check if the callback is valid.
@@ -140,7 +140,7 @@ module.exports = class
 						# Set the pending callback.
 						@_pendingCallback = callback
 						# Schedule the next update.
-						@_pendingTimeout = setTimeout update, 1000 / @_lettersPerSecond
+						@_pendingTimeout = setTimeout update, 1000 / @_core.options.lettersPerSecond
 					else
 						# Remove the pending callback and timeout.
 						@_pendingCallback = @_pendingTimeout = null
