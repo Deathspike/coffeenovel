@@ -1,11 +1,11 @@
 Desktop:
   Internet Explorer 7+
-  Google Chrome (Any)
-  FireFox 3+
-  Opera (Any)
-  Safari 3+
+  Google Chrome (Current)
+  FireFox (Current)
+  Opera (Current)
+  Safari (Current)
 
 Mobile Support:
-  Android 4.1+ -- Most Android devices are terrible with JavaScript.
+  Android 2.3.3+
   iOS 5.0+
   Windows Phone 7+

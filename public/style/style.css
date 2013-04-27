@@ -1,0 +1,68 @@
+* {
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+body, html {
+	background-color: black;
+	margin: 0;
+	height: 100%;
+	width: 100%;
+}
+
+#novel {
+	color: white;
+	cursor: pointer;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	margin: 0 auto;
+}
+
+.novel-choices {
+	bottom: 50%;
+	position: absolute;
+	text-align: center;
+	width: 100%;
+	z-index: 2;
+}
+
+	.novel-choices ul {
+		padding: 0;
+	}
+
+		.novel-choices ul li {
+			background-color: rgb(0, 0, 0); /* Fallback for IE8- */
+			background-color: rgba(0, 0, 0, 0.75);
+			border-radius: 10px;
+			list-style-type: none;
+			margin: 5px;
+			padding: 5px;
+		}
+
+			.novel-choices ul li a {
+				color: white;
+				text-decoration: none;
+			}
+
+.novel-text {
+	bottom: 0;
+	position: absolute;
+	width: 100%;
+	z-index: 1;
+}
+
+	.novel-text-visible {
+		background-color: rgb(0, 0, 0); /* Fallback for IE8- */
+		background-color: rgba(0, 0, 0, 0.75);
+		border-radius: 10px;
+		min-height: 70px;
+		margin: 5px;
+		padding: 10px;
+	}
+
+		.novel-text-visible-sender {
+			font-size: large;
+			font-style: italic;
+		}
+
+		.novel-text-visible-text {
+			font-size: large;
+		}

@@ -12,3 +12,6 @@ core.resources.character('sylvie_marry').name 'Sylvie'
 interpreter = new Interpreter core, require './scenarios/everything'
 # Invoke and advance the current instruction.
 interpreter.next()
+
+# Export for debugging purposes.
+window.core = core

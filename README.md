@@ -15,7 +15,12 @@ A visual novel engine written with open web technologies.
   4. Run the application server from `bin\app`. This will start a web server and bundle files.
   5. Play your game at http://localhost/
 
-## Releasing (No Installation Required)
+## Dependencies
+
+  1. jQuery 1.9.x (http://jquery.com/)
+  2. jQuery Transition (http://ricostacruz.com/jquery.transit/)
+
+## Releasing (No Installation)
 
   1. Upload the files in the `public` folder to your web server and serve as static content.
   2. Remove unnecessary `.coffee` files to prevent easy access to your scenarios.

@@ -39,7 +39,7 @@ module.exports = class
 				e.cancelBubble = true
 
 	# ==================================================
-    # Clear the scene and transition the background.
+	# Clear the scene and transition the background.
 	# --------------------------------------------------
 	background: (name = null, transition = 'normal', clear = true, callback = null) =>
 		# Check if the name is a function.

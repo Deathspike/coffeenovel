@@ -3,7 +3,6 @@ Minor Changes (Alphabetic Order):
 * Add options and integrate letterPerSecond and text continuation (click/timed).
 * Add pause function to pause scenario for given time in milliseconds.
 * Improve interpreter to perform ahead-of-time pre-loading on images.
-* Improve transition speed for Android devices (For a developer, terrible devices)
 * Improve text speed for Android devices (For a developer, terrible devices)
 * Protect against simultaneous transitions of characters and backgrounds.
 * Protect against simultaneous usage of text- and choice functions.
