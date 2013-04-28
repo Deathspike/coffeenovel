@@ -1,3 +1,5 @@
+# Initialize CSS3 animation (non-mobile is assumed to be capable of standard rendering).
+css = navigator.userAgent.match(/Android|iPad|iPhone|iPod|IEMobile/i) and jQuery.support.transition
 # Initialize the duration.
 duration = 500
 # Import the normal transition function.
@@ -34,14 +36,14 @@ module.exports = (element, source = null, callback = null) ->
 		# Transition with normal transition.
 		normal element, source
 		# Check if the browser supports CSS3 transitions.
-		if jQuery.support.transition
+		if css
 			# Perform CSS3 transition.
 			jQuery(element).transition opacity: 1, 500
 		else
 			# Perform JavaScript transition.
 			jQuery(element).fadeTo 500, 1
 	# Check if the browser supports CSS3 transitions.
-	if jQuery.support.transition
+	if css
 		# Perform CSS3 transition.
 		jQuery(clone).transition opacity: 0, 500, done
 	else
