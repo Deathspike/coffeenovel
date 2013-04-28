@@ -1,8 +1,6 @@
 Minor Changes (Alphabetic Order):
 * Add character-specific features, such as text color and text font.
-* Add options and integrate letterPerSecond and text continuation (click/timed).
 * Improve interpreter to perform ahead-of-time pre-loading on images.
-* Improve text speed for Android devices (For a developer, terrible devices)
 * Protect against simultaneous transitions of characters and backgrounds.
 * Protect against simultaneous usage of text- and choice functions.
 * Protect against interpreter exceptions.

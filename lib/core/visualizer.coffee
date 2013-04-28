@@ -22,7 +22,7 @@ module.exports = class
 		# Set the element with the sender role.
 		@_sender = role 'sender', @_container
 		# Set the element with the text role.
-		@_text = role 'text', @_container
+		@_text = null
 		# Initialize base visualization elements.
 		initialize.call @
 
@@ -99,20 +99,24 @@ module.exports = class
 		if @_sender
 			# Set the sender in the sender element.
 			@_sender.innerText = if sender then sender else ''
-		# Check if the text element is available.
-		if @_text
-			# Check if the letters per second indicates instant appearance.
+		# Check if a text element is available.
+		if @_textDirect or @_textHidden or @_textVisible
+			# Check if the text is to appear instantly.
 			if not text or not @_core.options.lettersPerSecond
-				# Set the text in the text element.
-				@_text.innerHTML = if text then text else ''
+				# Set the direct text.
+				@_textDirect.innerHTML = if text then (if text.charAt(0) is '!' then text.substr(1) else text) else ''
+				# Set the hidden and visible text.
+				@_textHidden.nodeValue = @_textVisible.nodeValue = ''
 				# Check if the callback is valid.
 				if callback
 					# Schedule the callback.
 					setTimeout callback, 0
-			# Otherwise the text will make a gradual appearance.
-			else
+			# Otherwise check if the text contains styling; use the low-performance approach.
+			else if text.charAt(0) is '!'
+				# Set the hidden and visible text.
+				@_textHidden.nodeValue = @_textVisible.nodeValue = ''
 				# Initialize the index.
-				i = 0
+				i = 1
 				# Initialize and invoke the update function.
 				(update = =>
 					# Initialize the tag boolean.
@@ -133,19 +137,53 @@ module.exports = class
 						if text.charAt(i) is '>'
 							# Set the tag boolean.
 							inTag = false
-					# Check if text is available.
+					# Check if remaining text is available.
 					if i < text.length
 						# Set the text in the text element.
-						@_text.innerHTML = text.substr(0, i) + '<span style="visibility: hidden">' + text.substr(i) + '</span>'
+						@_textDirect.innerHTML = text.substr(1, i) + '<span style="visibility: hidden">' + text.substr(i) + '</span>'
 						# Set the pending callback.
 						@_pendingCallback = callback
 						# Schedule the next update.
 						@_pendingTimeout = setTimeout update, 1000 / @_core.options.lettersPerSecond
+					# Otherwise the text has been completed.
 					else
 						# Remove the pending callback and timeout.
 						@_pendingCallback = @_pendingTimeout = null
 						# Set the text in the text element.
-						@_text.innerHTML = text
+						@_textDirect.innerHTML = text.substr 1
+						# Check if the callback is valid.
+						if callback
+							# Schedule the callback.
+							setTimeout callback, 0
+				)()
+			# Otherwise use the higher-performance approach.
+			else
+				# Set the direct text.
+				@_textDirect.innerHTML = ''
+				# Initialize the index.
+				i = 0
+				# Initialize and invoke the update function.
+				(update = =>
+					# Increment the index.
+					i += 1
+					# Check if text is allowed to be partially updated.
+					if i < text.length
+						# Set the pending callback.
+						@_pendingCallback = callback
+						# Schedule the next update.
+						@_pendingTimeout = setTimeout update, 1000 / @_core.options.lettersPerSecond
+						# Set the hidden text in the element.
+						@_textHidden.nodeValue = text.substr(i)
+						# Set the visible text in the element.
+						@_textVisible.nodeValue = text.substr(0, i)
+					# Otherwise the end has been reached.
+					else
+						# Remove the pending callback and timeout.
+						@_pendingCallback = @_pendingTimeout = null
+						# Set the hidden text in the element.
+						@_textHidden.nodeValue = ''
+						# Set the visible text in the element.
+						@_textVisible.nodeValue = text
 						# Check if the callback is valid.
 						if callback
 							# Schedule the callback.
@@ -227,3 +265,21 @@ initialize = ->
 	background.style.backgroundPosition = 'center center'
 	# Set the background-size property.
 	background.style.backgroundSize = 'cover'
+	# Set the element with the text role.
+	textContainer = role 'text', @_container
+	# Check if the element with the text role is valid.
+	if textContainer
+		# Iterate while the element has children.
+		while textContainer.hasChildNodes()
+			# Remove the child.
+			textContainer.removeChild textContainer.firstChild
+		# Set the hidden text element.
+		textHidden = document.createElement 'span'
+		# Set the visibility property of the hidden text element.
+		textHidden.style.visibility = 'hidden'
+		# Set the direct text.
+		@_textDirect = textContainer.appendChild document.createElement 'span'
+		# Set the visible text using an appended text node.
+		@_textVisible = textContainer.appendChild(document.createElement 'span').appendChild document.createTextNode ''
+		# Set the hidden text using an appended text node.
+		@_textHidden = textContainer.appendChild(textHidden).appendChild document.createTextNode ''
