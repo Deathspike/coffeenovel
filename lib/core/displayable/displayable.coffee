@@ -42,7 +42,7 @@ module.exports = class
 	# ----------------------------------------------
 	preload: (source, callback = null) =>
 		# Preload the displayable.
-		preloadFinal.call @
+		preloadFinal.call @, source, callback
 
 	# ==============================================
 	# Show the displayable.

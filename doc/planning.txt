@@ -1,6 +1,5 @@
 Minor Changes (Alphabetic Order):
 * Add character-specific features, such as text color and text font.
-* Improve interpreter to perform ahead-of-time pre-loading on images.
 * Protect against simultaneous transitions of characters and backgrounds.
 * Protect against simultaneous usage of text- and choice functions.
 * Protect against interpreter exceptions.

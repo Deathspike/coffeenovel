@@ -11,6 +11,8 @@ module.exports = class
 	# Initialize a new Interpreter class instance.
 	# ----------------------------------------------
 	constructor: (core, scenario) ->
+		# Set the core.
+		@_core = core
 		# Set the labels.
 		@_labels = []
 		# Set the instructions.
@@ -18,11 +20,38 @@ module.exports = class
 		# Set the instruction index.
 		@_index = 0
 		# Set the controller interpreter and interpret the scenario.
-		scenario @_controller = new Controller core, new Instructions(@_instructions), @
+		scenario @_controller = new Controller @_core, new Instructions(@_instructions), @
 		# Check if the scenario utilizies an initial jump.
 		if not @_instructions.length and @_labels.length
 			# Jump to the first label.
 			@_controller.jump @_labels[0].name
+
+	# ==============================================
+	# Perform ahead-of-time instruction parsing.
+	# ----------------------------------------------
+	aheadOfTime: =>
+		# Set the count.
+		count = 0
+		# Set the index.
+		index = @_index
+		# Iterate through the instructions.
+		while index < @_instructions.length and count < @_core.options.preloadMaximum
+			# Retrieve the instruction.
+			instruction = @_instructions[index]
+			# Increment the index.
+			index++
+			# Check if this is a valid background instruction.
+			if instruction[1] is 'background' and instruction[2][0]
+				# Increment the count.
+				count++
+				#
+				@_core.resources.background(instruction[2][0]).preload()
+			# Check if this is a show instruction and the target has a preload function.
+			if instruction[1] is 'show' and typeof instruction[0].preload is 'function'
+				# Increment the count.
+				count++
+				# Preload the displayable.
+				instruction[0]['preload'].apply instruction[0], instruction[2]
 
 	# ==============================================
 	# Interpret instructions for the jump.
@@ -104,3 +133,5 @@ module.exports = class
 				targetArguments.push @next
 				# Invoke the instruction on the target.
 				instruction[0][instruction[1]].apply instruction[0], targetArguments
+			# Perform ahead-of-time instruction parsing.
+			@aheadOfTime()

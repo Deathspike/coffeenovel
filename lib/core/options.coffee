@@ -10,3 +10,5 @@ module.exports = class
 		@automaticContinuation = false
 		# Contains the number of letters per second for text visualization.
 		@lettersPerSecond = 100
+		# Contains the maximum ahead-of-time preloads.
+		@preloadMaximum = 2
