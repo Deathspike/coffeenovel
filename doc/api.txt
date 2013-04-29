@@ -3,32 +3,38 @@ core:
   # Represents a collection of resources.
   resources:
     # Represents a background.
-    background: (core, id, extension = core.defaults.backgroundExtension, repository = core.defaults.backgroundRepository)
+    background(core, id, extension = core.defaults.backgroundExtension, repository = core.defaults.backgroundRepository)
       # Hide the background.
-      hide: (transition = 'normal', callback = null)
+      hide(transition = 'normal', callback = null)
+	  # Preload the background (with an unused transition).
+	  preload(transition = 'normal', callback = null)
       # Show the background.
-      show: (transition = 'normal', callback = null)
+      show(transition = 'normal', callback = null)
 
     # Represents a character.
-    character: (core, id, extension = core.defaults.characterExtension, repository = core.defaults.characterRepository)
+    character(core, id, extension = core.defaults.characterExtension, repository = core.defaults.characterRepository)
       # Hide the character.
       hide(transition = 'normal', callback = null)
       # Gets or sets the character name.
 	  name(name = null)
+	  # Preload the character (with an unused transition).
+	  preload(name = 'normal', transition = 'normal', callback = null)
       # Show the character.
 	  show(name = 'normal', transition = 'normal', callback, callback = null)
 	  # Show text with the character as sender, and await continuation.
 	  text(text = null, sender = null, callback = null)
 
     # Represents a displayable base.
-    displayable: (core)
+    displayable(core)
       # Hide the displayable.
-      hide: (element, transition = 'normal', callback = null)
+      hide(element, transition = 'normal', callback = null)
+	  # Preload the displayable.
+	  preload(source, callback = null)
       # Show the displayable.
-      show: (element, source, transition = 'normal', callback = null) =>
+      show(element, source, transition = 'normal', callback = null) =>
 
   # Represents a controller.
-  controller: (core, element)
+  controller(core, element)
     # Clear the scene and transition the background.
     background(name = null, transition = 'normal', clear = true, callback = null)
 	# Prompt choices and await for user selection.
@@ -37,7 +43,7 @@ core:
 	text(text = null, sender = null, callback = null)
 
   # Represents a core.
-  index: (width = 800, height = 600, element = document.getElementById 'novel')
+  index(width = 800, height = 600, element = document.getElementById 'novel')
     # Contains a controller.
 	controller: controller
 	# Contains a collection of options.
@@ -48,7 +54,7 @@ core:
     visualizer: visualizer
 
   # Represents a collection of resources.
-  resources: (core)
+  resources(core)
     # Find all loaded resources.
 	all()
     # Gets or sets a background.
@@ -66,7 +72,7 @@ core:
     lettersPerSecond: 100
 
   # Represents a visualizer.
-  visualizer: (core, width = 800, height = 600, element = document.getElementById 'novel')
+  visualizer(core, width = 800, height = 600, element = document.getElementById 'novel')
     # Indicates whether a displayable element exists.
 	exists(id)
     # Find or create a displayable element.

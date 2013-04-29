@@ -34,6 +34,19 @@ module.exports = class extends Displayable
 		super element, transition, callback
 
 	# ==============================================
+	# Preload the background (with an unused transition).
+	# ----------------------------------------------
+	preload: (transition = 'normal', callback = null) =>
+		# Check if the transition is a function.
+		if typeof transition is 'function'
+			# Set the callback.
+			callback = transition
+		# Initialize the source.
+		source = build.call @
+		# Preload the displayable.
+		super source, callback
+
+	# ==============================================
 	# Show the background.
 	# ----------------------------------------------
 	show: (transition = 'normal', callback = null) =>
@@ -45,7 +58,14 @@ module.exports = class extends Displayable
 			transition = 'normal'
 		# Initialize the element.
 		element = @_core.visualizer.findOrCreate('background')
-		# Initialize the path.
-		source = if @_id then @_repository + '/' + @_id + '.' + @_extension else null
+		# Initialize the source.
+		source = build.call @
 		# Show the displayable.
 		super element, source, transition, callback
+
+# ==============================================
+# Build the source.
+# ----------------------------------------------
+build = ->
+	# Return the source.
+	return if @_id then @_repository + '/' + @_id + '.' + @_extension else null

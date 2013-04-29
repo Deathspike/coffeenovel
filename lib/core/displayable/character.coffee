@@ -59,6 +59,25 @@ module.exports = class extends Displayable
 		return @_name
 
 	# ==============================================
+	# Preload the character (with an unused transition).
+	# ----------------------------------------------
+	preload: (name = 'normal', transition = 'normal', callback = null) =>
+		# Check if the name is a function.
+		if typeof name is 'function'
+			# Set the transition.
+			transition = name
+			# Set the name.
+			name = 'normal'
+		# Check if the transition is a function.
+		if typeof transition is 'function'
+			# Set the callback.
+			callback = transition
+		# Initialize the source.
+		source = build.call @, name
+		# Preload the displayable.
+		super source, callback
+
+	# ==============================================
 	# Show the character.
 	# ----------------------------------------------
 	show: (name = 'normal', transition = 'normal', callback = null) =>
@@ -76,8 +95,8 @@ module.exports = class extends Displayable
 			transition = 'normal'
 		# Initialize the element.
 		element = @_core.visualizer.findOrCreate('character-' + @_id)
-		# Initialize the path.
-		source = @_repository + '/' + @_id + '/' + name + '.' + @_extension
+		# Initialize the source.
+		source = build.call @, name
 		# Show the displayable.
 		super element, source, transition, callback
 
@@ -103,3 +122,10 @@ module.exports = class extends Displayable
 			sender = @_name
 		# Show text with an optional sender, and wait for user input.
 		@_core.controller.text text, sender, callback
+
+# ==============================================
+# Build the source.
+# ----------------------------------------------
+build = (name) ->
+	# Return the source.
+	return @_repository + '/' + @_id + '/' + name + '.' + @_extension
