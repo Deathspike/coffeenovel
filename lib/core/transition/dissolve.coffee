@@ -1,5 +1,5 @@
-# Initialize CSS3 animation (non-mobile is assumed to be capable of standard rendering).
-css = navigator.userAgent.match(/Android|iPad|iPhone|iPod|IEMobile/i) and jQuery.support.transition
+# Initialize CSS3 animation (disable CSS3 for IE).
+css = !navigator.userAgent.match(/MSIE/i) and jQuery.support.transition
 # Initialize the duration.
 duration = 500
 # Import the normal transition function.
