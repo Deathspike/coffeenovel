@@ -2,6 +2,7 @@
 # Export the scenario.
 # --------------------------------------------------
 module.exports = (controller) ->
+	# Initialize the Boy's Love boolean.
 	bl	= false
 	# Declare a background alias (for convenience).
 	b = controller.background
