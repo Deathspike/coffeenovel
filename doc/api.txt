@@ -113,7 +113,9 @@ interpreter:
 	text(text = null, sender = null)
 
   # Represents an interpreter.
-  index: (core, scenario)
+  index: (core, scenario, allowInitialJump = true)
+    # Perform ahead-of-time instruction parsing.
+    aheadOfTime(allowChoicePreload = true)
     # Interpret instructions for the jump.
 	jump(name)
     # Declare interpretable label the jump operation.

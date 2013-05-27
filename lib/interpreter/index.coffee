@@ -6,11 +6,11 @@ Instructions = require './instructions'
 # ==================================================
 # Represents an interpreter.
 # --------------------------------------------------
-module.exports = class
+module.exports = class Interpreter
 	# ==============================================
 	# Initialize a new Interpreter class instance.
 	# ----------------------------------------------
-	constructor: (core, scenario) ->
+	constructor: (core, scenario, allowInitialJump = true) ->
 		# Set the core.
 		@_core = core
 		# Set the labels.
@@ -19,17 +19,19 @@ module.exports = class
 		@_instructions = []
 		# Set the instruction index.
 		@_index = 0
+		# Set the scenario.
+		@_scenario = scenario
 		# Set the controller interpreter and interpret the scenario.
-		scenario @_controller = new Controller @_core, new Instructions(@_instructions), @
+		@_scenario @_controller = new Controller @_core, new Instructions(@_instructions), @
 		# Check if the scenario utilizies an initial jump.
-		if not @_instructions.length and @_labels.length
+		if allowInitialJump and not @_instructions.length and @_labels.length
 			# Jump to the first label.
 			@_controller.jump @_labels[0].name
 
 	# ==============================================
 	# Perform ahead-of-time instruction parsing.
 	# ----------------------------------------------
-	aheadOfTime: =>
+	aheadOfTime: (allowChoicePreload = true) =>
 		# Set the count.
 		count = 0
 		# Set the index.
@@ -40,18 +42,34 @@ module.exports = class
 			instruction = @_instructions[index]
 			# Increment the index.
 			index++
-			# Check if this is a valid background instruction.
+			# Check if this is a background instruction.
 			if instruction[1] is 'background' and instruction[2][0]
 				# Increment the count.
 				count++
-				#
+				# Preload the background.
 				@_core.resources.background(instruction[2][0]).preload()
+			# Check if this is a choice.
+			if instruction[1] is 'choose' and instruction[2][0]
+				# Check if preloading a choice is allowed.
+				if allowChoicePreload
+					# Iterate through each choice.
+					for choice of instruction[2][0]
+						# Initialize a new Interpreter class instance.
+						interpreter = new Interpreter @_core, @_scenario, false
+						# Jump to the choice.
+						interpreter.jump choice
+						# Perform ahead-of-time instruction parsing.
+						count += interpreter.aheadOfTime false
+				# Break iteration.
+				break
 			# Check if this is a show instruction and the target has a preload function.
 			if instruction[1] is 'show' and typeof instruction[0].preload is 'function'
 				# Increment the count.
 				count++
 				# Preload the displayable.
 				instruction[0]['preload'].apply instruction[0], instruction[2]
+		# Return the count.
+		return count
 
 	# ==============================================
 	# Interpret instructions for the jump.
