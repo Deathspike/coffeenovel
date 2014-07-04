@@ -12,3 +12,7 @@ module.exports = class
 		@lettersPerSecond = 100
 		# Contains the maximum ahead-of-time preloads.
 		@preloadMaximum = 2
+
+		@soundChannelEffect = 0.5
+		@soundChannelMusic = 0.25
+		@soundChannelVoice = 1

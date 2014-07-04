@@ -1,17 +1,25 @@
-# Import the core module.
-Core = require '../lib/core'
-# Import the interpreter module.
-Interpreter = require '../lib/interpreter'
+hasInitialized = false
 
-# Initialize a new instance of the Core class.
-core = new Core 800, 600
-# Find the character 'sylvie_marry' and rename to 'Sylvie'.
-core.resources.character('sylvie_marry').name 'Sylvie'
+window.addEventListener 'click', ->
+	if not hasInitialized
+		touch = document.getElementById('touch')
+		touch.parentNode.removeChild touch
+		hasInitialized = true
 
-# Initialize a new instance of the Interpreter class.
-interpreter = new Interpreter core, require './scenarios/everything'
-# Invoke and advance the current instruction.
-interpreter.next()
+		# Import the core module.
+		Core = require '../lib/core'
+		# Import the interpreter module.
+		Interpreter = require '../lib/interpreter'
 
-# Export for debugging purposes.
-window.core = core
+		# Initialize a new instance of the Core class.
+		core = new Core 800, 600
+		# Find the character 'sylvie_marry' and rename to 'Sylvie'.
+		core.resources.character('sylvie_marry').name 'Sylvie'
+
+		# Initialize a new instance of the Interpreter class.
+		interpreter = new Interpreter core, require './scenarios/everything'
+		# Invoke and advance the current instruction.
+		interpreter.next()
+
+		# Export for debugging purposes.
+		window.core = core

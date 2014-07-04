@@ -4,6 +4,8 @@ Controller = require './controller'
 Options = require './options'
 # Import the resources core class.
 Resources = require './resources'
+# Import the sound core class.
+Sound = require './sound'
 # Import the visualizer core class.
 Visualizer = require './visualizer'
 
@@ -23,6 +25,8 @@ module.exports = class
 		@options = new Options
 		# Initialize a collection of resources.
 		@resources = new Resources @
+		# Initialize a sound engine.
+		@sound = new Sound @, element
 		# Initialize a visualizer.
 		@visualizer = new Visualizer @, width, height, element
 

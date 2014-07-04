@@ -9,6 +9,12 @@ body, html {
 	width: 100%;
 }
 
+#touch {
+	color: white;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	text-align: center;
+}
+
 #novel {
 	color: white;
 	cursor: pointer;
